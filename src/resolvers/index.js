@@ -1,6 +1,6 @@
 import Query from "./Query/index.js";
 import fs from "fs";
-import Helpers from "../utils/Helpers.js";
+import Helpers from "../utils/helpers.js";
 import OrtypeCatalogFont from "../api/OrtypeCatalogFont.js";
 
 export default {

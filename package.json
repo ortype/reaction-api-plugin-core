@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +13,13 @@
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@reactioncommerce/api-utils": "^1.14.5",
+    "@wakamai-fondue/engine": "github:Wakamai-Fondue/wakamai-fondue-engine#50b68ac117a9aa5d907174db1920b4823ed4263e",
+    "opentype.js": "^1.3.3",
+    "simple-git": "^2.38.0",
+    "unzipper": "^0.10.11"
+  },
   "bugs": {
     "url": "https://github.com/ortype/reaction-plugin-core/issues"
   },

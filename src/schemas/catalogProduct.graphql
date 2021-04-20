@@ -1,0 +1,58 @@
+extend type CatalogProduct {
+  "The user agent string for the browser from which this order was placed"
+  fontFeatures: [FontFeature]
+}
+
+type FontFeature {
+  "tag: 'aalt'"
+  tag: String,
+  "name: 'Access All Alternates'"
+  name: String
+  "css: { feature: 'font-feature-settings: \"aalt\"', variant: null }"
+  css: FontFeatureCss
+  "comment: The <aalt> feature is an access mechanism for presenting glyph variants in a user interface"
+  comment: String
+  "range-start: 0"
+  rangeStart: Int
+  "range-end': 20"
+  rangeEnd: Int
+  "state: 'off'"
+  state: String
+  "category: 'Discretionary typographic presentation'"
+  category: String
+  #lookups: [ [Object], [Object] ]
+  lookups: [ FontFeatureLookup ]
+  "summary: { allInputs: [], allBacktracks: [], allLookaheads: [], summarizedCombinations: [] }"
+  summary: FontFeatureSummary
+}
+
+#union ArtistOrVenue =
+
+type FontFeatureCss {
+  "feature: 'font-feature-settings: \"frac\"'"
+  feature: String
+  "variant: 'font-variant-numeric: diagonal-fractions'",
+  variant: String
+}
+
+type FontFeatureLookup {
+  "type: 1"
+  type: Int,
+  "typeName: 'Single Substitution'"
+  typeName: String,
+  "input: [ 'A', 'O', 'Ş', 'Ţ' ] WARNING WARNING work not"
+  input: [[String]]
+  "backtrack: []"
+  backtrack: [[String]]
+  "lookahead: []"
+  lookahead: [[String]]
+  "alternateCount: []"
+  alternateCount: [Int]
+}
+
+type FontFeatureSummary {
+  allInputs: [String]
+  allBacktracks: [String]
+  allLookaheads: [String]
+  summarizedCombinations: [String]
+}

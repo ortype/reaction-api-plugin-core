@@ -25,6 +25,18 @@ async function syncFonts(context, all = false){
       variantsWithAncestors.push(variant);
     }
     await bulk(context, variantsWithAncestors);
+
+    if (parentProducts.length || variantProducts.length) {
+      const fonts = await context.collections.Products.find({
+        type: "font",
+        isVisible: true,
+        isDeleted: { $ne: true }
+      }).toArray();
+      const fontIds = fonts.map(font => font._id);
+      Logger.info("Publish fontIds: ", fontIds);
+      // publish changes made to product variants to the catalog
+      await context.mutations.publishProducts(context, fontIds);
+    }
   }
 }
 

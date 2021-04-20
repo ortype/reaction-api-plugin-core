@@ -1,6 +1,4 @@
 import OrtypeAbstractFont from "./OrtypeAbstractFont.js";
-// import Fondue from "@wakamai-fondue/cli/vendor/wf-engine/lib/index.js"
-// import loadFont from "@wakamai-fondue/cli/cli.js"
 import shit from "@wakamai-fondue/engine";
 import util from "util";
 

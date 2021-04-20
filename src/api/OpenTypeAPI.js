@@ -1,5 +1,5 @@
 import opentype from "opentype.js";
-import { getFontDirectories, getFontFiles, getPathInfo } from "./FileUtils.js";
+import Helpers from "../utils/helpers.js";
 import OrtypeFontFile from "./OrtypeFontFile.js";
 
 // This is responsible for loading files as Font Class Objects to enhance their functionality
@@ -52,8 +52,8 @@ export default class OpenTypeAPI {
     if (!reload) {
       return this.fonts;
     }
-    for (const fontDir of getFontDirectories()) {
-      for (const fontFile of getFontFiles(fontDir)) {
+    for (const fontDir of Helpers.getFontDirectories()) {
+      for (const fontFile of Helpers.getFontFiles(fontDir)) {
         await this.loadFont(fontFile);
       }
     }
@@ -66,7 +66,7 @@ export default class OpenTypeAPI {
    * @returns {Promise<OpenTypeAPI>}
    */
   async loadFont(fontFile) {
-    const fontName = getPathInfo(fontFile).base;
+    const fontName = Helpers.getPathInfo(fontFile).base;
     const font = this.fonts.find(font => font.name===fontName);
     if (font) {
       font.instance = await opentype.load(fontFile);

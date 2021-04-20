@@ -8,7 +8,7 @@ import syncFonts from "./utils/syncFonts.js";
  * @returns {undefined}
  */
 export default async function startup(context) {
-  console.log('OR TYPE CORE!!!!')
+  console.log('OR TYPE CORE!!!! OK OK')
   // init OpenTypeAPI in startup.js because the collections on context aren't ready
   // yet if initialized in the plugin register function
   // @type {OpenTypeAPI}

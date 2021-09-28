@@ -44,6 +44,14 @@ export default class OrtypeAbstractFont {
   }
 
   /**
+   * @param file
+   * @returns {Promise<*>}
+   */
+  async loadOpenTypeFile(file){
+    return await opentype.load(this.file);
+  }
+
+  /**
    * Helper function returning fvar table
    * @returns {*}
    */

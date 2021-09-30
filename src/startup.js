@@ -13,5 +13,5 @@ export default async function startup(context) {
   // yet if initialized in the plugin register function
   // @type {OpenTypeAPI}
   context.OpenTypeAPI = await OpenTypeAPI.getInstance(context);
-  await syncFonts(context);
+  // await syncFonts(context);
 }

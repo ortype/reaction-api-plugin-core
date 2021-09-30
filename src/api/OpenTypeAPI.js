@@ -1,6 +1,7 @@
 import opentype from "opentype.js";
 import Helpers from "../utils/helpers.js";
 import OrtypeFontFile from "./OrtypeFontFile.js";
+import OrtypePublishedFont from "./OrtypePublishedFont.js";
 
 // This is responsible for loading files as Font Class Objects to enhance their functionality
 export default class OpenTypeAPI {
@@ -80,7 +81,7 @@ export default class OpenTypeAPI {
   /**
    * This method is fetching all products from Catalog that are published as files in the repo
    * @param reload
-   * @returns {Promise<[]|*[]>}
+   * @returns {Promise<[OrtypePublishedFont]|*[OrtypePublishedFont]>}
    */
   async getPublishedFonts(reload = false) {
     if (!reload) {
@@ -91,10 +92,25 @@ export default class OpenTypeAPI {
       const catalogProduct = await font.getCatalogProduct();
       // if getCatalogProduct can't find a product `null` is returned
       if (catalogProduct) {
-        promises.push(catalogProduct);
+        const publishedFont = OrtypePublishedFont.getInstance(catalogProduct, this.context);
+        promises.push(publishedFont);
       }
     }
     this.publishedFonts = await Promise.all(promises);
     return this.publishedFonts;
+  }
+
+  /**
+   * @param word
+   * @returns {Promise<{width: *, variantId: *, title: *}[]>}
+   */
+  async getPublishedFontWidths(word) {
+    const publishedFonts = await this.getPublishedFonts();
+    let widths = [];
+    for (const publishedFont of publishedFonts){
+      const familyWidths = publishedFont.getWidths(word)
+      widths = [...widths, ...familyWidths];
+    }
+    return widths;
   }
 }

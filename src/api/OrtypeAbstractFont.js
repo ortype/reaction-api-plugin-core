@@ -48,7 +48,7 @@ export default class OrtypeAbstractFont {
    * @returns {Promise<*>}
    */
   async loadOpenTypeFile(file){
-    return await opentype.load(this.file);
+    return await opentype.load(file);
   }
 
   /**

@@ -63,6 +63,10 @@ export function checkDir(dirPath) {
   }
 }
 
+export function exists(file) {
+  return fs.existsSync(file);
+}
+
 export function getDownloadsDirectory(path) {
   const dir = `${LOCAL_DIR}downloads`;
   checkDir(dir);

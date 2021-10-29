@@ -1,4 +1,5 @@
 import OrtypeAbstractFont from "./OrtypeAbstractFont.js";
+import OrtypeFontFile from "./OrtypeFontFile.js";
 import Helpers from "../utils/helpers.js";
 import Logger from "@reactioncommerce/logger";
 
@@ -7,7 +8,7 @@ export default class OrtypePublishedFont extends OrtypeAbstractFont {
     const file = Helpers.getMetaValue(catalogProduct.product, 'familyFile');
     super(file, context);
     this.catalogProduct = catalogProduct;
-    this.variants = [];
+    this.variantInstances = [];
   }
 
   static async getInstance(catalogProduct, context) {
@@ -27,16 +28,21 @@ export default class OrtypePublishedFont extends OrtypeAbstractFont {
       if (variantFile && Helpers.exists(variantFile)) {
         // maybe we can create OrtypePublishedFontVariant to enhance this with functions
         // that all our classes use of AbstractFont
-        variant.instance = await this.loadOpenTypeFile(variantFile);
-        this.variants.push(variant);
+        variant.instance = await OrtypeFontFile.getInstance(variantFile, this.context);
+        // variant.instance = await this.loadOpenTypeFile(variantFile);
+        this.variantInstances.push(variant);
       } else {
         Logger.error(`"${variant.title}" file not found! Expected: ${variantFile}`)
       }
     }
   }
 
-  getWidths(text, fontSize = 1000){
-    return this.variants.map(variant => {
+  getVariant(variantId) {
+    return this.variantInstances.find(({ _id }) => _id === variantId);
+  }
+
+  getWidths(text, fontSize = 1000) {
+    return this.variantInstances.map(variant => {
       return {
         "title": variant.title,
         "variantId": variant._id,

@@ -100,6 +100,16 @@ export default class OpenTypeAPI {
     return this.publishedFonts;
   }
 
+  getPublishedFontVariant(variantId) {
+    for (const publishedFont of this.publishedFonts) {
+      const found = publishedFont.getVariant(variantId);
+      if (found) {
+        return found;
+      }
+    }
+    return {};
+  }
+
   /**
    * @param word
    * @returns {Promise<{width: *, variantId: *, title: *}[]>}

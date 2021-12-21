@@ -28,7 +28,7 @@ export default class OrtypePublishedFont extends OrtypeAbstractFont {
       if (variantFile && Helpers.exists(variantFile)) {
         // maybe we can create OrtypePublishedFontVariant to enhance this with functions
         // that all our classes use of AbstractFont
-        variant.instance = await OrtypeFontFile.getInstance(variantFile, this.context);
+        variant.ortypeFontFile = await OrtypeFontFile.getInstance(variantFile, this.context);
         // variant.instance = await this.loadOpenTypeFile(variantFile);
         this.variantInstances.push(variant);
       } else {
@@ -46,7 +46,8 @@ export default class OrtypePublishedFont extends OrtypeAbstractFont {
       return {
         "title": variant.title,
         "variantId": variant._id,
-        "width": variant.instance.getAdvanceWidth(text, fontSize)
+        // we all like double instance key :) that's what happens to variants that do not eat their food
+        "width": variant.ortypeFontFile.instance.getAdvanceWidth(text, fontSize)
       };
     })
   }

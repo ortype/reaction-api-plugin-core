@@ -124,12 +124,19 @@ export default class OrtypeAbstractFont {
   }
 
   getWoff2File(variationName) {
-    return Helpers.getFontDirectory(`${this.familyName.replace(/ /g, "")}/woff2/${this.familyName.replace(/ /g, "")}-${variationName.replace(/ /g, "")}.woff2`);
+    return Helpers.getFontDirectory(`${this.familyName.replace(/ /g, "")}/woff/${this.familyName.replace(/ /g, "")}-${variationName.replace(/ /g, "")}.woff2`);
   }
 
   getSpaceWidth(fontSize) {
-    // console.log("this.instance: ", this.instance)
-    const width = this.instance.getAdvanceWidth(' ', 1000)
+    const width = this.instance.getAdvanceWidth(" ", 1000);
+    if (width) {
+      return width * fontSize / 1000;
+    }
+    return 0;
+  }
+
+  getWordWidth(word, fontSize) {
+    const width = this.instance.getAdvanceWidth(word, 1000);
     if (width) {
       return width * fontSize / 1000;
     }

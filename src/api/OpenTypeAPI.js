@@ -114,8 +114,8 @@ export default class OpenTypeAPI {
    * @param word
    * @returns {Promise<{width: *, variantId: *, title: *}[]>}
    */
-  async getPublishedFontWidths(word) {
-    const publishedFonts = await this.getPublishedFonts();
+  getPublishedFontWidths(word) {
+    const publishedFonts = this.publishedFonts // await this.getPublishedFonts();
     let widths = [];
     for (const publishedFont of publishedFonts){
       const familyWidths = publishedFont.getWidths(word)

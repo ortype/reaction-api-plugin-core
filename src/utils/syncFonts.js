@@ -2,9 +2,7 @@ import Helpers from "./helpers.js";
 import Random from "@reactioncommerce/random";
 import Logger from "@reactioncommerce/logger";
 
-export default syncFonts
-
-async function syncFonts(context, all = false){
+export default async function syncFonts(context, all = false){
   const modifiedProducts = [];
   for (const font of await context.OpenTypeAPI.getFonts()) {
     modifiedProducts.push(...(await font.getReactionProducts(all)));

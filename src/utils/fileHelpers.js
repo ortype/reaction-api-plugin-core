@@ -3,7 +3,7 @@ import http from "http";
 import https from "https";
 import unzipper from 'unzipper';
 import path from "path";
-import git from "simple-git";
+import simpleGit from "simple-git";
 
 export const LOCAL_DIR = "public/custom/";
 export const AWS_URL = "https://assets.ortype.is/";
@@ -116,23 +116,42 @@ export async function getFontZip(zipName) {
   }
 }
 
+
+// @TODO: Add user name and password via .env vars
+
 export async function getFontsFromGit(username, password) {
   const repo = 'github.com/ortype/ortype-font-files';
   const remote = `https://${username}:${password}@${repo}`;
+  console.log("calling getFontsFromGit: ", remote);
+
+  // this if fails if the directory doesn't exist
   if (fs.existsSync(getFontDirectory('.git'))) {
-    await git().silent(true).pull().cwd(getFontDirectory());
+    console.log('.git exists in ', getFontDirectory(), ' so pull...')
+    const git = simpleGit(getFontDirectory())
+
+    git.listRemote(['--get-url'], (err, data) => {
+      if (!err) {
+        console.log('Remote url for repository at ' + getFontDirectory() + ':');
+        console.log(data);
+      }
+    });
+
+    await git.fetch().pull()
   } else {
-    await git().silent(true).clone(remote, getFontDirectory());
+    await simpleGit().clone(remote, getFontDirectory());
   }
+
 }
+
+// NOT WORKING: Requires keys configured on machine (attempts so far have failed)
 
 export async function getFontsFromGitWithSSH() {
   const GIT_SSH_COMMAND = "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null";
   if (fs.existsSync(getFontDirectory('.git'))) {
-    await git().env({...process.env, GIT_SSH_COMMAND}).pull().cwd(getFontDirectory());
+    await simpleGit().env({...process.env, GIT_SSH_COMMAND}).pull().cwd(getFontDirectory());
   } else {
     const repoPath = "git@github.com:ortype/ortype-font-files.git"; // must be SSH URL
-    const result = await git().env({...process.env, GIT_SSH_COMMAND}).clone(repoPath, getFontDirectory())
+    const result = await simpleGit().env({...process.env, GIT_SSH_COMMAND}).clone(repoPath, getFontDirectory())
     console.log("result: ", result);
   }
 }
